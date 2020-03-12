@@ -109,7 +109,7 @@ class Hanoi(object):
         self.workspacep.showpole()
         self.destinationp.showpole()
         for i in range(n):
-            self.startp.pushdisk(Disk("d"+str(i),0,i*150,20,(n-1)*30))
+            self.startp.pushdisk(Disk("d"+str(i),0,i*150,20,(n-i)*30))
     
     def move_disk(self,start,destination):
         disk = start.popdisk()
