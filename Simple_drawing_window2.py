@@ -27,14 +27,3 @@ class Simple_drawing_window2(QWidget):
         p.drawPolygon([QPoint(50,200),QPoint(150,200),QPoint(100,400)])
         p.drawPixmap(QRect(200,100,320,320),self.rabbit)
         p.end()
-
-def main():
-    app = QApplication(sys.argv)
-
-    w = Simple_drawing_window2()
-    w.show()
-
-    return app.exec_()
-
-if __name__ == "__main__":
-    sys.exit(main())
