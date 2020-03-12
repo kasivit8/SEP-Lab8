@@ -6,6 +6,30 @@ from PySide2.QtWidgets import *
 from PySide2.QtPrintSupport import *
 
 
+class Simple_animation_window(QWidget):
+    def __init__(self):
+        QWidget.__init__(self, None)
+
+        self.anim_area = Animation_area()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.anim_area)
+
+        self.button = QPushButton("Pause")
+        self.button.clicked.connect(self.buttonClicked)
+        layout.addWidget(self.button)
+
+        self.setLayout(layout)
+        self.setMinimumSize(330,400)
+
+    def buttonClicked(self):
+        if(self.button.text() == "Pause"):
+            self.button.setText("Play")
+            self.anim_area.isPause = True
+        else:
+            self.button.setText("Pause")
+            self.anim_area.isPause = False
+
 class Simple_drawing_window(QWidget):
     def __init__(self):
         QWidget.__init__(self, None)
