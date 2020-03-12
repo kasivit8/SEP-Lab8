@@ -1,54 +1,54 @@
+
 import sys
 from PySide2.QtCore import *
-from PySide2.QtWidgets import *
 from PySide2.QtGui import *
+from PySide2.QtWidgets import *
+from PySide2.QtPrintSupport import *
 
 
-class Animation_area(QWidget):
+class Simple_drawing_window(QWidget):
     def __init__(self):
         QWidget.__init__(self, None)
-        self.setMinimumSize(500, 500)
+        self.setWindowTitle("Paint")
+        self.points = []
 
-        self.arena_w = 500
-        self.arena_h = 500
+        self.resize(400, 400)
 
+        self.label = QLabel(self)
+        self.label.setText("Drag mouse to draw")
+        self.label.move(140, 260)
 
-class Simple_animation_window(QWidget):
-    def __init__(self):
-        QWidget.__init__(self, None)
-        self.setWindowTitle("Simple Drawing")
-        self.points = QPolygon()
+        self.button = QPushButton(self)
+        self.button.setText("Clear")
+        self.button.move(140, 280)
+        self.button.clicked.connect(self.clear_points)
+
+    def clear_points(self):
+        self.points.clear()
+
+    def mouseMoveEvent(self, event):
+        self.points.append(event.pos())
 
     def paintEvent(self, e):
         p = QPainter()
-        p.setRenderHint(QPainter.Antialiasing)
         p.begin(self)
-        p.setPen(QColor(0,0,0))
-        p.setBrush(QColor(0,0,0))
+        p.setPen(QColor(0, 0, 0))
+        p.setBrush(QColor(10, 10, 10))
         for point in self.points:
-            #p.drawPoints(self.points)
-            p.drawEllipse(point,15,10)
+            p.drawPie(point.x(), point.y(), 10, 10, 0, 180 * 32)
         p.end()
 
-    def mouseMoveEvent(self, e):
-        self.points << e.pos()
         self.update()
-
-        self.b1 = QPushButton("Clear")
-        self.b1.toggle()
-        layout.addWidget(self.b1)
-        self.setWindowTitle("A simple paint program ")
-
-
 
 
 def main():
     app = QApplication(sys.argv)
-    w = Simple_animation_window()
+
+    w = Simple_drawing_window()
     w.show()
 
     return app.exec_()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())
