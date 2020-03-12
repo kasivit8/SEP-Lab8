@@ -16,14 +16,23 @@ class Animation_area(QWidget):
 class Simple_animation_window(QWidget):
     def __init__(self):
         QWidget.__init__(self, None)
+        self.setWindowTitle("Simple Drawing")
+        self.points = QPolygon()
 
-        self.anim_area = Animation_area()
+    def paintEvent(self, e):
+        p = QPainter()
+        p.setRenderHint(QPainter.Antialiasing)
+        p.begin(self)
+        p.setPen(QColor(0,0,0))
+        p.setBrush(QColor(0,0,0))
+        for point in self.points:
+            #p.drawPoints(self.points)
+            p.drawEllipse(point,15,10)
+        p.end()
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.anim_area)
-
-        self.setLayout(layout)
-        self.setMinimumSize(530, 600)
+    def mouseMoveEvent(self, e):
+        self.points << e.pos()
+        self.update()
 
         self.b1 = QPushButton("Clear")
         self.b1.toggle()
