@@ -3,11 +3,12 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
+
 class Animation_area(QWidget):
     def __init__(self):
         QWidget.__init__(self, None)
-        self.setMinimumSize(500,500)
-        
+        self.setMinimumSize(500, 500)
+
         self.arena_w = 500
         self.arena_h = 500
 
@@ -15,14 +16,30 @@ class Animation_area(QWidget):
 class Simple_animation_window(QWidget):
     def __init__(self):
         QWidget.__init__(self, None)
+        self.setWindowTitle("Simple Drawing")
+        self.points = QPolygon()
 
-        self.anim_area = Animation_area()
+    def paintEvent(self, e):
+        p = QPainter()
+        p.setRenderHint(QPainter.Antialiasing)
+        p.begin(self)
+        p.setPen(QColor(0,0,0))
+        p.setBrush(QColor(0,0,0))
+        for point in self.points:
+            #p.drawPoints(self.points)
+            p.drawEllipse(point,15,10)
+        p.end()
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.anim_area)
+    def mouseMoveEvent(self, e):
+        self.points << e.pos()
+        self.update()
 
-        self.setLayout(layout)
-        self.setMinimumSize(530, 600)
+        self.b1 = QPushButton("Clear")
+        self.b1.toggle()
+        layout.addWidget(self.b1)
+        self.setWindowTitle("A simple paint program ")
+
+
 
 
 def main():
@@ -31,6 +48,7 @@ def main():
     w.show()
 
     return app.exec_()
+
 
 if __name__ == '__main__':
     sys.exit(main())
